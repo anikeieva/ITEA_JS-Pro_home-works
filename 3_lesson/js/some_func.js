@@ -1,6 +1,6 @@
 // # TEMPLATE
 
-(function some_func() {
+(function objectFromServer() {
 	var main_content = document.querySelector('.main-content');
 	var error = document.querySelector('.hidden');
 	var json_url = decodeURIComponent(location.search.slice(6));
@@ -13,7 +13,6 @@
 		else {
 			error.classList.remove('hidden');
 			error.classList.add('open');
-			console.log('open');
 		}
 	};
 	json_validation(json_url);
@@ -46,30 +45,25 @@
 		fruit = copy_data.filter((item, i, arr) => {
 			return arr[i].favoriteFruit === 'banana';
 		});
-		for (var j = 0; j < fruit.length; j++) {
-			array_1.push(fruit[j].name);
-		}
-		// console.log(array_1);
-		result(array_1, 'Peoples, those like bananas', 'like_bananas');
-
 		balances = copy_data.filter((item, i, arr) => {
 			return arr[i].balance > 2000 && arr[i].age > 25;
 		});
-		for (var j = 0; j < balances.length; j++) {
-			array_2.push(balances[j].name);
-		}
-		// console.log(array_2);
-		result(array_2, 'Peoples, those are more than 25 and have on balance more than $2000', 'more_than_2000');
-
 		eye_female_isActive = copy_data.filter((item, i, arr) => {
 			return arr[i].eyeColor === 'blue' && arr[i].gender === 'female' && arr[i].isActive === false;
 		});
-		for (var j = 0; j < eye_female_isActive.length; j++) {
-			array_3.push(eye_female_isActive[j].name);
+
+		for_array(fruit, array_1);
+		result(array_1, 'Peoples, those like bananas', 'like_bananas');
+		for_array(balances, array_2);
+		result(array_2, 'Peoples, those are more than 25 and have on balance more than $2000', 'more_than_2000');
+		for_array(eye_female_isActive, array_3);
+		result(array_3, 'Do not active Peoples, those have blue eyes, female gender', 'blue_eyes');
+	}
+
+	function for_array (array, newArray) {
+		for (var j = 0; j < array.length; j++) {
+			newArray.push(array[j].name);
 		}
-		// console.log(array_3);
-		result(array_3, 'Do not active Peoples, those have blue eyes, female gender', 
-			'blue_eyes');
 	}
 
 	var result = (arr, h2, id) => {
