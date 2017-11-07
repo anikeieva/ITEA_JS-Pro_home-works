@@ -53,11 +53,11 @@
 		});
 
 		for_array(fruit, array_1);
-		result(array_1, 'Peoples, those like bananas', 'like_bananas');
+		result(array_1, 'People, those like bananas', 'like_bananas');
 		for_array(balances, array_2);
-		result(array_2, 'Peoples, those are more than 25 and have on balance more than $2000', 'more_than_2000');
+		result(array_2, 'People, those are more than 25 and have on balance more than $2000', 'more_than_2000');
 		for_array(eye_female_isActive, array_3);
-		result(array_3, 'Do not active Peoples, those have blue eyes, female gender', 'blue_eyes');
+		result(array_3, 'Do not active people, those have blue eyes, female gender', 'blue_eyes');
 	}
 
 	function for_array (array, newArray) {
