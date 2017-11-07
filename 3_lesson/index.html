@@ -16,6 +16,16 @@
   		height: 20px;
   		border: 1px solid blue;
   	}
+    .open {
+      display: block;
+      color: red;
+    }
+    .hidden {
+      display: none;
+    }
+    .none {
+      list-style: none;
+    } 
 
   </style>
 </head>
@@ -23,6 +33,9 @@
 	<div class="main-content">
 		<form>
 			<input type="text" name="json" class="json" placeholder="Enter JSON's url">
+      <div class="hidden">
+        <span>JSON url is not valided. Enter corect url!</span>
+      </div>
 		</form>
 	</div>
   	<script src="js/some_func.js"></script>
