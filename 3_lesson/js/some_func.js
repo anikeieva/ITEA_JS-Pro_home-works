@@ -19,10 +19,12 @@
 
 	function MyApp(val){
 		// https://www.json-generator.com/#
-		var fetchedData = fetch(val).then(function(response) {
-		return response.json();
-		}).then(data => {
-		renderInterface(data);
+		var fetchedData = fetch(val)
+		.then(response => {
+			return response.json();
+		})
+		.then(data => {
+			renderInterface(data);
 		});
 	};
 
