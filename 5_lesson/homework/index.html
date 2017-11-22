@@ -10,17 +10,29 @@
   			box-sizing: 0;
   			height: 100%;
   			color: white;
+        overflow-y: auto;
   		}
+      body {
+        min-height: 100%;
+      }
   		.content {
   			position: relative;
-  			width: 100%;
-  			height: 100vh;
+  			min-width: 100%;
+        height: auto;
+  			min-height: 100%;
   			background-image: url('A Special Burger For You.jpg');
+        background-size: cover;
   		}
   		#menu, #order {
   			position: absolute;
   			top: 20px;
-  			background-color: rgba(95,105,45,0.7);
+  		}
+  		#order {
+        float: left;
+  			margin-left: 40px;
+        bottom: 20px;
+        height: auto;
+        left: 0;
   		}
   		#menu {
   			right: 0;
@@ -51,31 +63,123 @@
   			color: #aa1717;
   			font-weight: 600;
   		}
-  		#order {
-  			float: left;
-  			margin-left: 40px;
-  			width: 410px;
+  		#order .info {
+  			width: 500px;
   			padding: 15px 45px;
+  			padding-bottom: 25px;
+  			background-color: rgba(95,105,45,0.7);
+  			margin-bottom: 30px;
   		}
-  		#order h2 {
+  		#orde .info h2 {
   			font-size: 130%;
   		}
+  		select {
+  			border: 0;
+  			font-size: 15px;
+  		}
+  		select, input[type="button"] {
+  			cursor: pointer;
+  		}
+  		.orderButton{
+  			margin-top: 20px;
+  			width: 100%;
+  			height: 40px;
+  			font-size: 23px;
+  			border: 0;
+  			background-color: #aa1717;
+  			color: white;
+  		}
+  		.bubble {
+  			display: none;
+  			float: left;
+  			margin-left: 45px;
+  		}
+  		.bubble_block {
+  			display: block;
+  		}
+  		.speech-bubble {
+  			width: 350px;
+  			position: relative;
+  			color: black;
+  			background: white;
+  			border-radius: .4em;
+  			padding: 15px;
+		}
+
+		.speech-bubble:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: 0;
+			height: 0;
+			border: 20px solid transparent;
+			border-bottom-color: white;
+			border-top: 0;
+			border-left: 0;
+			margin-left: -10px;
+			margin-top: -20px;
+			color: black;
+		}
+		.absentBurger {
+			display: none;
+			float: right;
+			width: 200px;
+			background-color: red;
+			background-color: white;
+			border-radius: .4em;
+			padding: 15px;
+			color: black;
+		}
+		.absentBurgerBlock {
+			display: block;
+		}
+		.absentOK{
+			float: right;
+		}
+    .addDiv, .exceptDiv {
+      width: 50%;
+      float: left;
+    }
+    .info h2 {
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+    .addDiv h2, .exceptDiv h2 {
+      text-align: left;
+      font-size: 17px;
+      font-weight: 600;
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
 	<div class="content">
 		<div id="order">
-			<h2>Order burger online</h2>
-			<p>Choose what burger do you want</p>
-			<select id="selectBurger"></select>
-
-			<p>Maybe you have condition to burgers? Except or add you want ingridients</p>
-			<select id="selectExcept">
-				<option selected disabled>Except</option>
-			</select>
-			<select id="selectAdd">
-				<option selected disabled>Add</option>
-			</select>
+			<div class="info">
+				<h2>Order burger online</h2>
+				<p>Choose what burger you want</p>
+				<select id="selectBurger"></select>
+				<p>Maybe you have condition to burgers? Except or add you want ingridients</p>
+				<div class="exceptDiv">
+          <h2>Except</h2>
+          <div id="selectExcept"></div>
+				</div>
+        <div class="addDiv">
+          <h2>Add</h2>
+          <div id="selectAdd"></div>
+				</div>
+				<br>
+				<input class="orderButton" type="button" value='OK'>
+			</div>
+			<div class="bubble">
+				<div class="speech-bubble"></div>
+			</div>
+			<div class="absentBurger">
+				<p class="message"></p>
+				<input type="button" class="absentNO" name="" value="NO">
+				<input type="button" class="absentOK" name="" value="OK">
+			</div>
 		</div>
 		<div id="menu">
 			<h2>Burger menu</h2>
