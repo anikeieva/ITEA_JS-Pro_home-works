@@ -201,12 +201,11 @@ Order.prototype.returnOrderMessage = function() {
     {
       this.orderAvailability = this.value.join(', ');
       if(this.name === 'My Burger') {
-        if(this.value.length > 2) {
-            orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, what has ${this.orderAvailability}, will be ready in 20 minutes.`;
-        }
-        else {
-            orderMessageErrror = `Burger must has more than 2 ingridients`;
-        }
+          if(this.value.length >= 0 && this.value.length <= 2) {
+              orderMessageErrror = `Burger must has more than 2 ingridients`;
+          } else {
+              orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, what has ${this.orderAvailability}, will be ready in 20 minutes.`;
+          }
       } else {
         orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, what has ${this.orderAvailability}, will be ready in ${this.cookingTime} minutes.`;
       }
@@ -221,8 +220,13 @@ Order.prototype.returnOrderMessage = function() {
     }
     default:
     {
-      //standart Burger from menu
-      orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, will be ready in ${this.cookingTime} minutes.`;
+      if(this.name === 'My Burger') {
+          orderMessageErrror = `Burger must has more than 2 ingridients`;
+      }
+      else {
+          //standart Burger from menu
+          orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, will be ready in ${this.cookingTime} minutes.`;
+      }
     }
   }
 
