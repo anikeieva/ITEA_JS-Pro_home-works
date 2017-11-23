@@ -55,73 +55,84 @@
 
 // код незавершений!!! ще графіка і оптимізація
 const Ingredients = [
-  'Булка',
-  'Огурчик',
-  'Котлетка',
-  'Бекон',
-  'Рыбная котлета',
-  'Соус карри',
-  'Кисло-сладкий соус',
-  'Помидорка',
-  'Маслины',
-  'Острый перец',
-  'Капуста',
-  'Кунжут',
-  'Сыр Чеддер',
-  'Сыр Виолла',
-  'Сыр Гауда',
-  'Майонез'
+  'bun',
+  'cucumber',
+  'beef cutlet',
+  'bacon',
+  'fish cutlet',
+  'sauce curry',
+  'sweet and sour sauce',
+  'tomatos',
+  'olives',
+  'hot pepper',
+  'lemon',
+  'bolete',
+  'onion',
+  'leaf lettuce',
+  'cabbage',
+  'sesame',
+  'Cheddar cheeseр',
+  'Viola cheese',
+  'Gouda cheese',
+  'Gruyere cheese',
+  'mayonnaise',
+  'ketchup'
 ];
 
 const cheesburgerIngredients = [
-  'Булка',
-  'Огурчик',
-  'Котлетка',
-  'Кисло-сладкий соус',
-  'Помидорка',
-  'Салат',
-  'Кунжут',
-  'Сыр Чеддер',
-  'Майонез'
+  'bun',
+  'cucumber',
+  'beef cutlet',
+  'sweet and sour sauce',
+  'tomatos',
+  'leaf lettuce',
+  'onion',
+  'sesame',
+  'Cheddar cheese',
+  'mayonnaise',
+  'ketchup'
 ];
 
 const monteCristoBurgerIngredients = [
-  'Булка',
-  'Котлетка',
-  'Бекон',
+  'bun',
+  'beef cutlet',
+  'bacon',
   'Яицо',
-  'Кисло-сладкий соус',
-  'Острый перец',
-  'Капуста',
-  'Лук',
-  'Сыр Грюйер',
-  'Майонез',
-  'Грибы'
+  'sauce curry',
+  'hot pepper',
+  'cabbage',
+  'onion',
+  'Gruyere cheese',
+  'mayonnaise',
+  'bolete'
 ];
 
 const shakeShackBurgerIngredients = [
-  'Булка',
-  'Огурчик',
-  'Котлетка',
-  'Соус карри',
-  'Помидорка',
-  'Острый перец',
-  'Капуста',
-  'Кунжут',
-  'Сыр Виолла',
-  'Майонез'
+  'bun',
+  'cucumber',
+  'beef cutlet',
+  'bolete',
+  'sweet and sour sauce',
+  'tomatos',
+  'olives',
+  'cabbage',
+  'sesame',
+  'Viola cheese',
+  'mayonnaise'
 ];
 
 const fishBurgerIngredients = [
-  'Булка',
-  'Рыбная котлета',
-  'Соус карри',
-  'Помидорка',
-  'Лимон',
-  'Капуста',
-  'Сыр Гауда',
-  'Майонез',
-  'Кетчуп'
+  'bun',
+  'fish cutle',
+  'sauce curry',
+  'cucumber',
+  'tomatos',
+  'olives',
+  'lemon',
+  'leaf lettuceа',
+  'Gouda cheese',
+  'mayonnaise',
+  'ketchup'
 ];
 
 let OurMenu = [];
@@ -134,16 +145,18 @@ let selectExcept = document.querySelector('#selectExcept');
 let selectAdd = document.querySelector('#selectAdd');
 let bubble = document.querySelector('.bubble');
 let speechBubblee = document.querySelector('.speech-bubble');
+let exceptDiv = document.querySelector('.exceptDiv');
+let addDiv = document.querySelector('.addDiv');
 let globalId = 1001;
 let globalOrder;
+let defaultBurgerIndex = 0;
+let defaultBurgerName = 'Cheesburger';
 
 function Burger(name, ingredients, cookingTime) {
   this.name = name;
-  this.htmlName = '<span class="burgerName">' + this.name + '</span>' + ' <br> состав: ';
+  this.htmlName = '<span class="burgerName">' + this.name + '</span>' + ' <br>';
   this.ingredients = ingredients;
   this.cookingTime = cookingTime;
-
-  console.log(OurMenu);
 }
 Burger.prototype.showComposition = function(){
     let {ingredients, name} = this;
@@ -168,6 +181,7 @@ Order.prototype.returnOrderMessage = function() {
   this.orderNumber = this.id;
   this.orderBurger = this.name;
   let orderMessage;
+  let orderMessageErrror;
 
   for (let i = 0; i < OurMenu.length; i++) {
     if(OurMenu[i].name === this.name) {
@@ -179,41 +193,53 @@ Order.prototype.returnOrderMessage = function() {
   switch (this.condition) {
     case 'except':
     {
-      this.orderException = this.value.join(',');
-      orderMessage = `Заказ ${this.orderNumber}: Бургер ${this.orderBurger}, except ${this.orderException}, будет готов через ${this.cookingTime} минут.`;
+      this.orderException = this.value.join(', ');
+      orderMessage = `Order ${this.orderNumber}: Buger ${this.orderBurger}, except ${this.orderException}, will be ready in ${this.cookingTime} minutes.`;
       break;
     }
     case 'has':
     {
-      this.orderAvailability = this.value.join(',');
+      this.orderAvailability = this.value.join(', ');
       if(this.name === 'My Burger') {
-        orderMessage = `Заказ ${this.orderNumber}: Бургер ${this.orderBurger}, what has ${this.orderAvailability}, будет готов через 20 минут.`;
+        if(this.value.length > 2) {
+            orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, what has ${this.orderAvailability}, will be ready in 20 minutes.`;
+        }
+        else {
+            orderMessageErrror = `Burger must has more than 2 ingridients`;
+        }
       } else {
-        orderMessage = `Заказ ${this.orderNumber}: Бургер ${this.orderBurger}, what has ${this.orderAvailability}, будет готов через ${this.cookingTime} минут.`;
+        orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, what has ${this.orderAvailability}, will be ready in ${this.cookingTime} minutes.`;
       }
       break;
     }
     case 'both':
     {
-      this.orderException = this.value[0].join(',');
-      this.orderAvailability = this.value[1].join(',');
-      orderMessage = `Заказ ${this.orderNumber}: Бургер ${this.orderBurger} whithout ${this.orderException}, what has ${this.orderAvailability}, будет готов через ${this.cookingTime} минут.`;
+      this.orderException = this.value[0].join(', ');
+      this.orderAvailability = this.value[1].join(', ');
+      orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, whithout ${this.orderException}, what has ${this.orderAvailability}, will be ready in ${this.cookingTime} minutes.`;
       break;
     }
     default:
     {
       //standart Burger from menu
-      orderMessage = `Заказ ${this.orderNumber}: Бургер ${this.orderBurger}, будет готов через ${this.cookingTime} минут.`;
+      orderMessage = `Order ${this.orderNumber}: Burger ${this.orderBurger}, will be ready in ${this.cookingTime} minutes.`;
     }
   }
 
+  OurOrders.push(orderMessage);
   bubble.classList.toggle('bubble_block', true);
-  speechBubblee.innerText = orderMessage;
-  console.log(orderMessage);
+
+  if(orderMessageErrror) {
+      speechBubblee.innerText = orderMessageErrror;
+  }
+  else {
+      speechBubblee.innerText = orderMessage;
+  }
+  // console.log(orderMessage);
 }
 
 function initBugerMenu() {
-  OurMenu.forEach((item) => {
+  OurMenu.forEach((item, index) => {
     let text = item.htmlName;
     if (item.ingredients.length > 0) {
       item.ingredients.forEach((element, i, arr) => {
@@ -225,18 +251,32 @@ function initBugerMenu() {
       });
     }
     ul.insertAdjacentHTML('beforeEnd', '<li class="li">'+ text + '</li>');
-    selectBurger.insertAdjacentHTML('beforeEnd', '<option>' + item.name + '</option>');
+    if(index === defaultBurgerIndex) {
+        selectBurger.insertAdjacentHTML('beforeEnd', '<option selected>' + item.name + '</option>');
+    }
+    else {
+        selectBurger.insertAdjacentHTML('beforeEnd', '<option>' + item.name + '</option>');
+    }
   });
 }
 
 function initOrderMenu() {
-  selectBurger.onchange = onSelectBurger;
+  selectBurger.onclick = onSelectBurger;
   buttonOrderOK.addEventListener('click', onOkClick);
 }
 
 function onSelectBurger(e) {
   let ingredientsInChosenBurger = [];
   let name = selectBurger.value;
+
+  if(name === 'My Burger') {
+      exceptDiv.style.display = 'none';
+      addDiv.classList.add('addDiv2Col');
+  }
+  else {
+      addDiv.classList.remove('addDiv2Col');
+      exceptDiv.style.display = 'block';
+  }
 
   initExceptOptions(name);
   initAddOptions(name);
@@ -318,11 +358,16 @@ function calculatOptions(exceptOptions, addOptions) {
     }
 }
 
-function setDefaultState() {
-  //todo
+function setDefaultBurgerOptions() {
+  let ingredientsInChosenBurger = [];
+  let name = defaultBurgerName;
 
-  // selectBurger.value = OurMenu[1].name;
-  // selectBurger.dispatchEvent(new Event('change'));
+  initExceptOptions(name);
+  initAddOptions(name);
+}
+
+function setDefaultState() {
+    onSelectBurger();
 }
 
 
@@ -340,14 +385,11 @@ function onOkClick(event) {
       addOptions.push(item.children[0].value);
     }
   });
+
   let options;
-
-  // let MuBurgerIngridients =
-
   let condition = calculateCondition(exceptOptions, addOptions);
   let optionsIng = calculatOptions(exceptOptions, addOptions);
   globalOrder = new Order(selectBurger.value, condition, optionsIng);
-
 
   setDefaultState();
 }
@@ -362,4 +404,4 @@ OurMenu.push(new Burger('My Burger', ['Вы выбираете начинку с
 
 initOrderMenu();
 initBugerMenu();
-setDefaultState();
+setDefaultBurgerOptions();
