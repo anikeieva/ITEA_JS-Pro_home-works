@@ -1,0 +1,31 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-x: none;
+}
+#content {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  background-image: url('../img/zooBackground.png');
+  background-size: cover;
+}
+.wrapper {
+  padding: 20px;
+}
+.message {
+  float: left;
+  padding: 15px;
+  color: white;
+  background-color: rgba(45, 91, 97, 0.7);
+}
+.messageInfo {
+  list-style: none;
+  padding-left: 0;
+  font-weight: 600;
+}
+.messageInfo li{
+  font-weight: 500;
+}
