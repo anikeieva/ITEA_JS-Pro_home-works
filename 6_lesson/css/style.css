@@ -6,6 +6,7 @@ html, body {
   overflow-x: none;
 }
 #content {
+  position: relative;
   width: 100%;
   height: auto;
   min-height: 100%;
@@ -15,11 +16,24 @@ html, body {
 .wrapper {
   padding: 20px;
 }
+.info {
+  width: 30%;
+  position: absolute;
+  top: 90px;
+  left: 28%;
+}
 .message {
+  display: none;
   float: left;
+  clear: both;
+  margin-left: 9%;
+  margin-top: 40px;
   padding: 15px;
   color: white;
   background-color: rgba(45, 91, 97, 0.7);
+}
+.messageBlock {
+  display: block;
 }
 .messageInfo {
   list-style: none;
@@ -28,4 +42,14 @@ html, body {
 }
 .messageInfo li{
   font-weight: 500;
+}
+.searchInfo {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin: 0 auto;
+  float: left;
+}
+.searchInfo input {
+  width: 100%;
 }

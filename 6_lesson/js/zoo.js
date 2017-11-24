@@ -168,6 +168,12 @@ class Zoo {
       'reptiles': [],
       'others': []
     };
+    this.herbivoreArray = [];
+    this.carnivoreArray = [];
+    this.types = [];
+    this.names = [];
+    this.typesLowerCase = [];
+    this.namesLowerCase = [];
   }
   addAnimal(arrayOfAnimalObj) {
     arrayOfAnimalObj.forEach(item => {
@@ -195,13 +201,40 @@ class Zoo {
     let text;
     for(let prop in this.zones) {
       this.zones[prop].forEach((animalObj, indexAnimalObj, arrayOfAnimalObj) => {
-          if(type === 'name' && animalObj.name === value || type === 'type' && animalObj.type === value) {
+          if(type === 'name' && animalObj.name.toLowerCase() === value.toLowerCase() ||
+          type === 'type' && animalObj.type.toLowerCase() === value.toLowerCase()) {
             textArray.push(messageInfo(animalObj, this));
           }
+          else {
+            text = `Error. This type or name of animal is not correct! Enter again only name OR type!`;
+          }
+          // console.log(value.toLowerCase().indexOf(animalObj.name.toLowerCase()));
       });
     }
-    text = textArray.join('');
-    message.insertAdjacentHTML('beforeEnd', text);
+
+    if(textArray.length >= 1) {
+      text = textArray.join('');
+
+      if(text) {
+          message.classList.add('messageBlock');
+          message.innerHTML = '';
+          message.insertAdjacentHTML('beforeEnd', `<h2>Info about animal(s) you ask</h2> ${text}`);
+      }
+      else {
+        message.classList.remove('messageBlock');
+      }
+    }
+    else {
+      if(value) {
+        message.classList.add('messageBlock');
+        message.innerHTML = '';
+        message.insertAdjacentHTML('beforeEnd', text);
+      }
+      else {
+        message.innerHTML = '';
+        message.classList.remove('messageBlock');
+      }
+    }
   }
   countAnimals() {
     this.animalCount = 0;
@@ -209,6 +242,28 @@ class Zoo {
       this.animalCount += this.zones[prop].length;
     }
     console.log(this.animalCount);
+  }
+  getTypesAndNames() {
+    for(let prop in this.zones) {
+      this.zones[prop].forEach(animalObj => {
+          this.types.push(animalObj.type);
+          this.names.push(animalObj.name);
+          this.typesLowerCase.push(animalObj.type.toLowerCase());
+          this.namesLowerCase.push(animalObj.name.toLowerCase());
+      });
+    }
+  }
+  rangingHerbivoreCarnivore() {
+    for(let prop in this.zones) {
+      this.zones[prop].forEach((animalObj, indexAnimalObj, arrayOfAnimalObj) => {
+          if(animalObj.foodType === 'herbivore') {
+            this.herbivoreArray.push(animalObj);
+          }
+          else if(animalObj.foodType === 'carnivore') {
+            this.carnivoreArray.push(animalObj);
+          }
+      });
+    }
   }
 }
 
@@ -226,11 +281,40 @@ function messageInfo(obj, zoo) {
   return text;
 }
 
+function searchInfo() {
+  let inputSearch = document.querySelector('.inputSearch');
+  inputSearch.addEventListener('change', returnInfo);
+}
+
+function returnInfo(e) {
+  let target = this.value;
+
+  zoo.getAnimal(getType(target), target);
+}
+
+function getType(target) {
+  let type = target.toLowerCase();
+
+  if(zoo.typesLowerCase.indexOf(type) >= 0) {
+    return 'type';
+  }
+  else if(zoo.namesLowerCase.indexOf(type) >= 0) {
+    return 'name';
+  }
+}
+
+searchInfo();
+
 let zoo = new Zoo("Animal\'s land");
 zoo.addAnimal([rex, owee, bubbles, greeny, shally, cody]);
 console.log(zoo);
-zoo.removeAnimal(['Owee', 'Shally']);
+zoo.removeAnimal(['Shally']);
 console.log(zoo);
 // zoo.getAnimal('name', 'Greeny');
-zoo.getAnimal('type', 'wolf');
 zoo.countAnimals();
+zoo.rangingHerbivoreCarnivore();
+console.log(zoo.herbivoreArray);
+console.log(zoo.carnivoreArray);
+zoo.getTypesAndNames();
+console.log(zoo.types);
+// console.log(zoo.namesLowercase);
