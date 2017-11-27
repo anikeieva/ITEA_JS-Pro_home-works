@@ -199,42 +199,32 @@ class Zoo {
   getAnimal(type, value) {
     let textArray = [];
     let text;
-    for(let prop in this.zones) {
-      this.zones[prop].forEach((animalObj, indexAnimalObj, arrayOfAnimalObj) => {
-          if(type === 'name' && animalObj.name.toLowerCase() === value.toLowerCase() ||
-          type === 'type' && animalObj.type.toLowerCase() === value.toLowerCase()) {
-            textArray.push(messageInfo(animalObj, this));
-          }
-          else {
-            text = `Error. This type or name of animal is not correct! Enter again only name OR type!`;
-          }
-          // console.log(value.toLowerCase().indexOf(animalObj.name.toLowerCase()));
+
+    if (!type && value.toLowerCase().indexOf('herbivore') >= 0) {
+      this.herbivoreArray.forEach(item => {
+        textArray.push(messageInfo(item, this));
       });
     }
-
-    if(textArray.length >= 1) {
-      text = textArray.join('');
-
-      if(text) {
-          message.classList.add('messageBlock');
-          message.innerHTML = '';
-          message.insertAdjacentHTML('beforeEnd', `<h2>Info about animal(s) you ask</h2> ${text}`);
-      }
-      else {
-        message.classList.remove('messageBlock');
-      }
+    else if (!type && value.toLowerCase().indexOf('carnivore') >= 0) {
+      this.carnivoreArray.forEach(item => {
+        textArray.push(messageInfo(item, this));
+      });
     }
-    else {
-      if(value) {
-        message.classList.add('messageBlock');
-        message.innerHTML = '';
-        message.insertAdjacentHTML('beforeEnd', text);
+    else if(type) {
+      for(let prop in this.zones) {
+        this.zones[prop].forEach((animalObj, indexAnimalObj, arrayOfAnimalObj) => {
+          if(type === 'name' && value.toLowerCase().indexOf(animalObj.name.toLowerCase()) >= 0 ||
+          type === 'type' && value.toLowerCase().indexOf(animalObj.type.toLowerCase()) >= 0) {
+              textArray.push(messageInfo(animalObj, this));
+          }
+        });
       }
-      else {
-        message.innerHTML = '';
-        message.classList.remove('messageBlock');
-      }
+    } else {
+      text = `Error. This type, food type or name of animal is not correct! Enter again only name OR type!`;
     }
+
+    searchResultOnPage(textArray, text, value, this);
+
   }
   countAnimals() {
     this.animalCount = 0;
@@ -268,17 +258,46 @@ class Zoo {
 }
 
 function messageInfo(obj, zoo) {
-  let text = `<ul class="messageInfo">${obj.type} ${obj.name} (Zoo "${zoo.name}"):`;
+  let text = `<ul class="messageInfo"><h3>${obj.type} ${obj.name}:</h3>`;
   for(let prop in obj) {
     if(prop === 'speed') {
-      text += `<li>${prop}: ${obj[prop]} km/h;</li>`;
+      text += `<li><span>${prop}</span>: ${obj[prop]} km/h;</li>`;
     }
-    else {
-      text += `<li>${prop}: ${obj[prop]};</li>`;
+    else if(prop === 'foodType') {
+      text += `<li><span>food type</span>: ${obj[prop]}</li>`;
+    } else {
+      text += `<li><span>${prop}</span>: ${obj[prop]};</li>`;
     }
   }
   text += `</ul>`;
   return text;
+}
+
+function searchResultOnPage(textArray, textMessage, value, zoo) {
+  var text;
+  if(textArray.length >= 1) {
+    text = textArray.join('');
+
+    if(text) {
+        message.classList.add('messageBlock');
+        message.innerHTML = '';
+        message.insertAdjacentHTML('beforeEnd', `<h2>Info about animal(s) (Zoo "${zoo.name}") you ask</h2> ${text}`);
+    }
+    else {
+      message.classList.remove('messageBlock');
+    }
+  }
+  else {
+    if(value) {
+      message.classList.add('messageBlock');
+      message.innerHTML = '';
+      message.insertAdjacentHTML('beforeEnd', textMessage);
+    }
+    else {
+      message.innerHTML = '';
+      message.classList.remove('messageBlock');
+    }
+  }
 }
 
 function searchInfo() {
@@ -293,14 +312,27 @@ function returnInfo(e) {
 }
 
 function getType(target) {
-  let type = target.toLowerCase();
+  let typeArg = target.toLowerCase();
+  let type;
 
-  if(zoo.typesLowerCase.indexOf(type) >= 0) {
-    return 'type';
+  zoo.typesLowerCase.forEach(item => {
+    if (typeArg.indexOf(item) >= 0) {
+      type = 'type';
+    }
+  });
+
+  zoo.namesLowerCase.forEach(item => {
+    if (typeArg.indexOf(item) >= 0) {
+      type = 'name';
+    }
+  });
+
+  if(!type) {
+    type = false;
   }
-  else if(zoo.namesLowerCase.indexOf(type) >= 0) {
-    return 'name';
-  }
+
+  return type;
+
 }
 
 searchInfo();

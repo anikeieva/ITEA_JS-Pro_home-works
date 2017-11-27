@@ -17,20 +17,27 @@ html, body {
   padding: 20px;
 }
 .info {
-  width: 30%;
+  width: 90%;
   position: absolute;
   top: 90px;
-  left: 28%;
+  left: 5%;
 }
 .message {
+  width: 94%;
   display: none;
   float: left;
   clear: both;
-  margin-left: 9%;
   margin-top: 40px;
-  padding: 15px;
+  padding: 3%;
   color: white;
-  background-color: rgba(45, 91, 97, 0.7);
+  background-color: rgba(45, 91, 97, 0.8);
+}
+.message h2 {
+  margin-top: 0;
+  text-align: center;
+}
+.message :last-child {
+  margin-right: 0;
 }
 .messageBlock {
   display: block;
@@ -38,16 +45,31 @@ html, body {
 .messageInfo {
   list-style: none;
   padding-left: 0;
+  font-size: 17px;
   font-weight: 600;
+  display: block;
+  margin-right: 30px;
+  clear: none;
+  float: left;
 }
-.messageInfo li{
-  font-weight: 500;
+.messageInfo h3 {
+  color: #91dafb;
+  color: #e9503c;
+  font-size: 21px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.messageInfo span {
+  font-size: 18px;
 }
 .searchInfo {
-  width: 100%;
+  display: block;
+  width: 40%;
   float: left;
   clear: both;
-  margin: 0 auto;
+  margin-left: 20%;
+  margin-top: 40px;
   float: left;
 }
 .searchInfo input {
