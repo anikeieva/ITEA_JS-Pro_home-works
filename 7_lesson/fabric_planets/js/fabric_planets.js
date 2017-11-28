@@ -40,13 +40,7 @@ let planets = (name) => {
     let result = randomPopulation - populationMultiplyRate * 10000;
     console.log(`от катаклизма погибло ${result} человек ${name}`);
   };
-
-  // щоб передати в метод поверненого об єкта функцію, ця функція має бути приватною (повертає помилку)
-  let growPopulation = () => {
-    let result = Math.round(randomPopulation + populationMultiplyRate * randomPopulation / 1000);
-    console.log(`за один цикл прибавилось ${result} населения планеты ${name}`);
-  };
-  // варыант виконання умови задачі, коли growPopulation - публічний метод
+  // варыант(1) виконання умови задачі, коли growPopulation - публічний метод
   // let result = {
   //   name: name,
   //   population: randomPopulation,
@@ -70,10 +64,18 @@ let planets = (name) => {
   //   }
   // };
   // return result;
+
+  // варіант(2): щоб передати в метод поверненого об єкта функцію, я зробила цю функцію приватною (якщо ні - повертає помилку, є закоментована глобальна внизу)
+  let growPopulation = () => {
+    let result = Math.round(randomPopulation + populationMultiplyRate * randomPopulation / 1000);
+    console.log(`за один цикл прибавилось ${result} населения планеты ${name}`);
+  };
+
   return {
     name: name,
     population: randomPopulation,
     timeCycle: 24,
+    // Метод об єкта, що повертається не може повернути інший його метод, бо той по факту на даний момент ще не ініціалізувався. Тому закоментовано
     // growPopulation: function() {
     //   console.log('growPopulation');
     // },
