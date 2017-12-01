@@ -1,0 +1,18 @@
+{
+  "name": "reminding_telegram_bot",
+  "version": "1.0.0",
+  "description": "It is a telegram bot for reminding",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "telegram",
+    "bot"
+  ],
+  "author": "Anikeieva Alyona",
+  "license": "ISC",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.29.0"
+  }
+}
