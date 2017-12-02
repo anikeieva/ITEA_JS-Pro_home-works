@@ -1,6 +1,28 @@
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {polling: true});
 
+bot.onText(/\/start/, (msg, match) => {
+  let chatId = msg.chat.id;
+  bot.sendMessage(chatId,
+`Hello, ${msg.from.first_name}! I'm your reminding bot.
+If you have a reminding for me, use /remind before your text.
+
+e.g.
+/remind to call mother
+
+after it I will offer you how long I must wait to receive you reminding,
+and you must choose (click on)  "/days /hours or /minutes" (only one)
+and after it to write time (only fractional or integer number)
+and wait for remind
+
+all comands:
+
+/remind - create reminding after it (only one row)
+/minutes - after click on it you must write time for waiting for reminder in minutes (only fractional or integer number)
+/hours - after click on it you must write time for waiting for reminder in hours (only fractional or integer number)
+/days - after click on it you must write time for waiting for reminder in days (only fractional or integer number)`);
+});
+
 let reminders = [];
 
 bot.onText(/\/remind (.+)/, (msg, match) => {
@@ -77,7 +99,7 @@ function setTimeReturnResult(reminder, chatId,  units, changeTohover) {
 
 function remindingAfterSetTime(reminder, timeIntervalHours, chatId, time, units) {
   let timeIntervalMlSeconds = reminder.timeIntervalHours*3600*1000;
-  
+
   if(time > 1) {
     units = units + 's';
   }
@@ -88,11 +110,19 @@ function remindingAfterSetTime(reminder, timeIntervalHours, chatId, time, units)
 
   setTimeout(() => {
     bot.sendMessage(chatId, `It's time ${reminder.text}!`);
-    // bot.sendMessage(chatId, `Maybe you want to /delay?`);
+    // bot.sendMessage(chatId, `/ok or /delay?`);
+    //
+    // bot.onText(/\ok/, (msg, match) => {
+    //   if(!reminder.delay) bot.sendMessage(chatId, `Good luck!`);
+    // });
     //
     // bot.onText(/\/delay/, (msg, match) => {
-    //   reminder.delay  = true;
-    //   setUnits(reminder, chatId);
+    //   // if(!reminder.delay) {
+    //     // reminder.delay  = true;
+    //     setUnits(reminder, chatId);
+    //     reminder.delay = true;
+    //
+    //   // }
     // });
   }, timeIntervalMlSeconds);
 }
